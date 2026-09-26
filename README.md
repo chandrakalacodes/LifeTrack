@@ -36,3 +36,7 @@ I built LifeTrack as a personal productivity project to practice frontend develo
 - Cloud database
 - Better mobile experience
 - More productivity insights
+
+## Project Preview
+
+![LifeTrack Dashboard](dashboard.png)
