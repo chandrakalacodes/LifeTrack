@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LifeTrack - Personal Productivity Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="logo">
+            <div class="logo-icon">L</div>
+            <div>
+                <h2>LifeTrack</h2>
+                <span>Plan • Focus • Grow</span>
+            </div>
+        </div>
+
+        <nav>
+            <a class="nav-item active" href="#dashboard">🏠 Dashboard</a>
+            <a class="nav-item" href="#calendarSection">📅 Calendar</a>
+            <a class="nav-item" href="#tasksSection">✓ Tasks</a>
+            <a class="nav-item" href="#goalsSection">🎯 Goals</a>
+            <a class="nav-item" href="#focusSection">⏱ Focus</a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <div class="mini-tip">
+                <span>💡</span>
+                <p>Small steps every day create big changes.</p>
+            </div>
+        </div>
+    </aside>
+
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <!-- TOPBAR -->
+        <header class="topbar">
+            <div>
+                <p class="welcome-small">Your personal productivity space</p>
+                <h1 id="welcomeText">Good evening 👋</h1>
+            </div>
+
+            <button class="today-btn" onclick="goToToday()">
+                📅 Today
+            </button>
+        </header>
+
+
+        <!-- STATS -->
+        <section class="stats-grid">
+
+            <div class="stat-card">
+                <div class="stat-icon purple">✓</div>
+                <div>
+                    <span>Completed</span>
+                    <strong id="completedCount">0</strong>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon blue">☑</div>
+                <div>
+                    <span>Today's Tasks</span>
+                    <strong id="taskCount">0</strong>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon orange">🔥</div>
+                <div>
+                    <span>Day Streak</span>
+                    <strong id="streakCount">0</strong>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon green">%</div>
+                <div>
+                    <span>Today Progress</span>
+                    <strong id="progressPercent">0%</strong>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- CALENDAR -->
+        <section class="card calendar-card" id="calendarSection">
+
+            <div class="section-heading">
+                <div>
+                    <span class="section-label">PLAN YOUR TIME</span>
+                    <h2>Calendar</h2>
+                </div>
+
+                <button class="outline-btn" onclick="goToToday()">
+                    Today
+                </button>
+            </div>
+
+            <div class="calendar-controls">
+
+                <div class="year-controls">
+                    <button onclick="changeYear(-1)">‹</button>
+                    <strong id="calendarYear">2026</strong>
+                    <button onclick="changeYear(1)">›</button>
+                </div>
+
+                <div class="month-controls">
+                    <button onclick="changeMonth(-1)">‹</button>
+                    <strong id="calendarMonth">September</strong>
+                    <button onclick="changeMonth(1)">›</button>
+                </div>
+
+            </div>
+
+            <div class="calendar-weekdays">
+                <div>Sun</div>
+                <div>Mon</div>
+                <div>Tue</div>
+                <div>Wed</div>
+                <div>Thu</div>
+                <div>Fri</div>
+                <div>Sat</div>
+            </div>
+
+            <div id="calendarDays" class="calendar-days"></div>
+
+        </section>
+
+
+        <!-- CONTENT GRID -->
+        <section class="content-grid">
+
+            <!-- TASKS -->
+            <div class="card tasks-card" id="tasksSection">
+
+                <div class="section-heading">
+                    <div>
+                        <span class="section-label">SELECTED DATE</span>
+                        <h2 id="selectedDateTitle">Today's Tasks</h2>
+                    </div>
+
+                    <span class="task-date" id="selectedDateText"></span>
+                </div>
+
+                <div class="add-task">
+                    <input
+                        type="text"
+                        id="taskInput"
+                        placeholder="What do you want to accomplish?"
+                        onkeydown="handleTaskEnter(event)"
+                    >
+
+                    <button onclick="addTask()">
+                        + Add Task
+                    </button>
+                </div>
+
+                <ul id="taskList" class="task-list"></ul>
+
+                <div id="emptyTasks" class="empty-state">
+                    <div>✨</div>
+                    <h3>No tasks for this day</h3>
+                    <p>Add something you want to accomplish.</p>
+                </div>
+
+            </div>
+
+
+            <!-- GOALS -->
+            <div class="card goals-card" id="goalsSection">
+
+                <div class="section-heading">
+                    <div>
+                        <span class="section-label">YOUR TARGETS</span>
+                        <h2>My Goals</h2>
+                    </div>
+
+                    <button class="small-add-btn" onclick="toggleGoalForm()">
+                        + Add Goal
+                    </button>
+                </div>
+
+
+                <div id="goalForm" class="goal-form hidden">
+
+                    <input
+                        type="text"
+                        id="goalInput"
+                        placeholder="Enter your goal"
+                    >
+
+                    <div class="goal-form-row">
+                        <input
+                            type="number"
+                            id="goalProgressInput"
+                            min="0"
+                            max="100"
+                            value="0"
+                            placeholder="Progress %"
+                        >
+
+                        <select id="goalPeriodInput">
+                            <option value="year">Yearly</option>
+                            <option value="month">Monthly</option>
+                        </select>
+
+                        <button onclick="addGoal()">Add</button>
+                    </div>
+
+                </div>
+
+
+                <div id="goalList" class="goal-list"></div>
+
+                <div id="emptyGoals" class="empty-state goal-empty">
+                    <div>🎯</div>
+                    <h3>Create your first goal</h3>
+                    <p>Your goals are completely personal to you.</p>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- PROGRESS -->
+        <section class="progress-grid">
+
+            <div class="card progress-card">
+
+                <div class="section-heading">
+                    <div>
+                        <span class="section-label">PROGRESS</span>
+                        <h2>Daily Progress</h2>
+                    </div>
+
+                    <div class="big-percent" id="bigProgress">
+                        0%
+                    </div>
+                </div>
+
+                <div class="large-progress">
+                    <div
+                        id="dailyProgressBar"
+                        class="large-progress-bar"
+                        style="width:0%"
+                    ></div>
+                </div>
+
+                <p id="progressMessage">
+                    Let's get started!
+                </p>
+
+            </div>
+
+
+            <div class="card planning-card">
+
+                <span class="section-label">PLANNING</span>
+                <h2>Your Productivity</h2>
+
+                <div class="planning-stats">
+
+                    <div>
+                        <span>Monthly</span>
+                        <strong id="monthlyProgress">0%</strong>
+                    </div>
+
+                    <div>
+                        <span>Yearly</span>
+                        <strong id="yearlyProgress">0%</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- FOCUS TIMER -->
+        <section class="timer-panel" id="focusSection">
+
+            <div class="timer-content">
+
+                <span class="section-label">DEEP WORK</span>
+                <h2>Focus Timer</h2>
+                <p>Give yourself uninterrupted time to focus.</p>
+
+                <div id="timer">25:00</div>
+
+                <div class="timer-buttons">
+                    <button onclick="startTimer()">▶ Start</button>
+                    <button onclick="pauseTimer()">Ⅱ Pause</button>
+                    <button onclick="resetTimer()">↻ Reset</button>
+                </div>
+
+            </div>
+
+            <div class="timer-decoration">
+                ⏱
+            </div>
+
+        </section>
+
+
+        <footer>
+            <p>LifeTrack • Your goals. Your plans. Your journey.</p>
+        </footer>
+
+    </main>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
